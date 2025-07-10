@@ -1,0 +1,9 @@
+{
+    "symbol": "BTCUSDT",
+    "grid_levels": 10,
+    "volatility_window_minutes": 15,
+    "trailing_trigger": 0.02,
+    "trailing_wait_minutes": 2,
+    "pump_protection_percent": 0.05,
+    "base_investment": 100
+}
