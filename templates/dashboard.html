@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Grid Bot Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Crypto Grid Bot Dashboard</h1>
+    <form action="/save-config" method="post">
+        <label>Symbol:
+            <select name="symbol">
+                {% for p in pairs %}
+                    <option value="{{p}}" {% if p == config.symbol %}selected{% endif %}>{{p}}</option>
+                {% endfor %}
+            </select>
+        </label><br>
+        <label>Grid Levels: <input name="grid_levels" value="{{ config.grid_levels }}"></label><br>
+        <label>Volatility Window: <input name="volatility_window_minutes" value="{{ config.volatility_window_minutes }}"></label><br>
+        <label>Trailing Trigger: <input name="trailing_trigger" value="{{ config.trailing_trigger }}"></label><br>
+        <label>Trailing Wait Minutes: <input name="trailing_wait_minutes" value="{{ config.trailing_wait_minutes }}"></label><br>
+        <label>Pump Protection %: <input name="pump_protection_percent" value="{{ config.pump_protection_percent }}"></label><br>
+        <label>Base Investment: <input name="base_investment" value="{{ config.base_investment }}"></label><br>
+        <button type="submit">Save Config</button>
+    </form>
+    <form action="/start-bot" method="post">
+        <button type="submit">Start Bot</button>
+    </form>
+    <canvas id="gridChart" width="600" height="300"></canvas>
+    <script src="/static/js/chart.js"></script>
+</body>
+</html>
