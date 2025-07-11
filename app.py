@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, request, redirect, jsonify
 from config_manager import load_config, save_config
 from binance_client import get_trading_pairs
@@ -27,8 +26,7 @@ def save():
 def config_json():
     return jsonify(load_config())
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+# ✅ Naye routes yahaan add karo, if __name__ == '__main__' se pehle:
 
 @app.route('/manual_grid_setup', methods=['POST'])
 def manual_grid_setup():
@@ -55,3 +53,6 @@ def set_pair():
     pair = request.json.get("pair")
     print(f"Pair set to {pair}")
     return jsonify({"status": f"Pair set to {pair}"})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
