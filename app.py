@@ -29,3 +29,29 @@ def config_json():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
+
+@app.route('/manual_grid_setup', methods=['POST'])
+def manual_grid_setup():
+    print("Manual grid setup triggered.")
+    return jsonify({"status": "Manual grid setup done"})
+
+@app.route('/ai_grid_setup', methods=['POST'])
+def ai_grid_setup():
+    print("AI grid setup triggered.")
+    return jsonify({"status": "AI grid setup done"})
+
+@app.route('/close-bot', methods=['POST'])
+def close_bot():
+    print("Bot stopped.")
+    return jsonify({"status": "Bot stopped"})
+
+@app.route('/close_trade', methods=['POST'])
+def close_trade():
+    print("Trade closed.")
+    return jsonify({"status": "Trade closed"})
+
+@app.route('/set_pair', methods=['POST'])
+def set_pair():
+    pair = request.json.get("pair")
+    print(f"Pair set to {pair}")
+    return jsonify({"status": f"Pair set to {pair}"})
