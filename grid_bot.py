@@ -1,5 +1,3 @@
-grid_bot_advanced.py
-
 import time import threading import os import math from binance_client import client from config_manager import load_config from ta.volatility import average_true_range, BollingerBands from ta.momentum import RSIIndicator from ta.trend import MACD import pandas as pd
 
 class GridBot: def init(self): self.running = False self.active_orders = [] self.last_price = None self.symbol = "" self.trailing_triggered = False self.trailing_time = None self.buy_paused = False self.total_profit = 0 self.sell_history = []  # for profit tracking
