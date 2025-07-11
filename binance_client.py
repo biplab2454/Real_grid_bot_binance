@@ -1,7 +1,7 @@
 
 from binance.client import Client
 
-client = Client(api_key='1Caz5wSZD7PdSjbGqofLpR3CUZ6sDw5Z178oXTggugoiKgsJ52Arez9JdgFOHVKa', api_secret='NGMnGvS1GeNcAOUcuFMKp7jquKzF4ToFGeh2kqNMN4DhmkGVvj7egOlapIHBEld2')
+client = Client(api_key='', api_secret='')
 
 def get_trading_pairs():
     try:
