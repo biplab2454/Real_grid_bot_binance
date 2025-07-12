@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,43 +12,42 @@
         select, input { background: #2a2a2a; border: none; color: #fff; }
     </style>
 </head>
-<body><div class="container py-4">
-    <!-- Bot Status -->
+<body>
+
+<div class="container py-4">
+
     <div class="d-flex justify-content-between mb-3">
-        <div>
-            <span class="badge bg-success" id="bot-status">Running</span>
-        </div>
-        <div>
-            <strong>Total Balance:</strong> <span id="total-balance">$0.00</span>
-        </div>
-    </div><!-- Controls -->
-<div class="row g-3">
-    <div class="col-md-3"><button onclick="triggerAction('/manual_grid_setup')" class="btn btn-primary w-100">Manual Grid Setup</button></div>
-    <div class="col-md-3"><button onclick="triggerAction('/ai_grid_setup')" class="btn btn-secondary w-100">AI Grid Setup</button></div>
-    <div class="col-md-3"><button onclick="triggerAction('/start-bot')" class="btn btn-success w-100">Start Bot</button></div>
-    <div class="col-md-3"><button onclick="triggerAction('/close-bot')" class="btn btn-danger w-100">Close Bot</button></div>
-    <div class="col-md-3"><button onclick="triggerAction('/close_trade')" class="btn btn-warning w-100">Close Trade</button></div>
+        <div><span class="badge bg-success" id="bot-status">Running</span></div>
+        <div><strong>Total Balance:</strong> <span id="total-balance">$0.00</span></div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-3"><button onclick="triggerAction('/manual_grid_setup')" class="btn btn-primary w-100">Manual Grid Setup</button></div>
+        <div class="col-md-3"><button onclick="triggerAction('/ai_grid_setup')" class="btn btn-secondary w-100">AI Grid Setup</button></div>
+        <div class="col-md-3"><button onclick="triggerAction('/start-bot')" class="btn btn-success w-100">Start Bot</button></div>
+        <div class="col-md-3"><button onclick="triggerAction('/close-bot')" class="btn btn-danger w-100">Close Bot</button></div>
+        <div class="col-md-3"><button onclick="triggerAction('/close_trade')" class="btn btn-warning w-100">Close Trade</button></div>
+    </div>
+
+    <div class="card mt-4 p-3">
+        <h5>Select Pair</h5>
+        <select id="pair-select" class="form-select mb-2">
+            {% for pair in pairs %}
+                <option value="{{ pair }}">{{ pair }}</option>
+            {% endfor %}
+        </select>
+        <button onclick="setPair()" class="btn btn-info w-100">Set Pair</button>
+    </div>
+
+    <div class="card mt-4 p-3">
+        <h5>Live Grid Chart</h5>
+        <canvas id="grid-chart" height="200"></canvas>
+        <div class="mt-3"><strong>Recent Grid Profit:</strong> <span id="recent-profit">$0.00</span></div>
+    </div>
+
 </div>
 
-<!-- Pair Select -->
-<div class="card mt-4 p-3">
-    <h5>Select Pair</h5>
-    <select id="pair-select" class="form-select mb-2">
-        {% for pair in pairs %}
-            <option value="{{ pair }}">{{ pair }}</option>
-        {% endfor %}
-    </select>
-    <button onclick="setPair()" class="btn btn-info w-100">Set Pair</button>
-</div>
-
-<!-- Chart + Profit -->
-<div class="card mt-4 p-3">
-    <h5>Live Grid Chart</h5>
-    <canvas id="grid-chart" height="200"></canvas>
-    <div class="mt-3"><strong>Recent Grid Profit:</strong> <span id="recent-profit">$0.00</span></div>
-</div>
-
-</div><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function triggerAction(endpoint) {
     fetch(endpoint, { method: 'POST' })
@@ -64,7 +64,6 @@ function triggerAction(endpoint) {
         console.error(err);
     });
 }
-</script>
 
 function setPair() {
     const pair = document.getElementById("pair-select").value;
@@ -92,7 +91,9 @@ setInterval(() => {
         document.getElementById("total-balance").innerText = `$${data.total_balance}`;
         document.getElementById("recent-profit").innerText = `$${data.recent_profit}`;
         document.getElementById("bot-status").innerText = data.bot_status;
-    }).catch(() => console.log("Status fetch failed")); 
+    }).catch(() => console.log("Status fetch failed"));
 }, 5000);
-</script></body>
+</script>
+
+</body>
 </html>
