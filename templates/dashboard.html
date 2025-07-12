@@ -48,12 +48,23 @@
 </div>
 
 </div><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script>
+<script>
 function triggerAction(endpoint) {
     fetch(endpoint, { method: 'POST' })
     .then(res => res.json())
-    .then(data => alert(data.status))
-    .catch(err => alert("Connection error."));
+    .then(data => {
+        if (data.config) {
+            alert(`Status: ${data.status}\nGrid Levels: ${data.config.grid_levels}\nRange: ${data.config.grid_range}\nStep Size: ${data.config.step_size}\nMode: ${data.config.mode}`);
+        } else {
+            alert(data.status);
+        }
+    })
+    .catch(err => {
+        alert("Connection error.");
+        console.error(err);
+    });
 }
+</script>
 
 function setPair() {
     const pair = document.getElementById("pair-select").value;
