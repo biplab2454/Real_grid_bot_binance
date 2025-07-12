@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     config = load_config()
-    pairs = get_trading_pairs()
+    pairs = get_trading_pairs() or ["BTCUSDT", "ETHUSDT", "BNBUSDT"]  # Backup if API fails
     return render_template('dashboard.html', config=config, pairs=pairs)
 
 @app.route('/start-bot', methods=['POST'])
@@ -26,15 +26,30 @@ def save():
 def config_json():
     return jsonify(load_config())
 
+# ✅ Repaired Manual Grid Setup Route
 @app.route('/manual_grid_setup', methods=['POST'])
 def manual_grid_setup():
+    data = request.json
+
+    grid_levels = int(data.get("grid_levels", 10))
+    min_price = float(data.get("min_price", 0))
+    max_price = float(data.get("max_price", 0))
+    step_size = float(data.get("step_size", 0))
+    total_investment = float(data.get("total_investment", 1000))  # Default fallback
+
+    grid_range = f"{min_price}-{max_price}"
+
     config = {
-        "grid_levels": 10,
-        "grid_range": "32000-34000",
-        "step_size": "20 USDT",
-        "mode": "Manual"
+        "grid_levels": grid_levels,
+        "grid_range": grid_range,
+        "step_size": step_size,
+        "mode": "Manual",
+        "total_investment": total_investment
     }
-    print("Manual grid setup triggered.")
+
+    save_config(config)  # Optional: Save for persistence
+    print("Manual grid setup triggered:", config)
+
     return jsonify(status="Manual grid setup done", config=config)
 
 @app.route('/ai_grid_setup', methods=['POST'])
@@ -48,19 +63,4 @@ def close_bot():
     return jsonify(status="Bot stopped")
 
 @app.route('/close_trade', methods=['POST'])
-def close_trade():
-    print("Trade closed.")
-    return jsonify(status="Trade closed")
-
-@app.route('/set_pair', methods=['POST'])
-def set_pair():
-    pair = request.json.get("pair")
-    print(f"Pair set to {pair}")
-    return jsonify(status=f"Pair set to {pair}")
-
-@app.route('/status')
-def status():
-    return jsonify(total_balance=1200.50, recent_profit=123.45, bot_status="Running")
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+def
