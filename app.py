@@ -28,8 +28,14 @@ def config_json():
 
 @app.route('/manual_grid_setup', methods=['POST'])
 def manual_grid_setup():
+    config = {
+        "grid_levels": 10,
+        "grid_range": "32000-34000",
+        "step_size": "20 USDT",
+        "mode": "Manual"
+    }
     print("Manual grid setup triggered.")
-    return jsonify(status="Manual grid setup done")
+    return jsonify(status="Manual grid setup done", config=config)
 
 @app.route('/ai_grid_setup', methods=['POST'])
 def ai_grid_setup():
